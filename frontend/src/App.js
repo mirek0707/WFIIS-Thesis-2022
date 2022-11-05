@@ -11,6 +11,7 @@ import Home from "./components/home_component";
 import Profile from "./components/profile_component";
 import BoardUser from "./components/board_user_component";
 import BoardAdmin from "./components/board_admin_component";
+import Clubs from "./components/clubs_component";
 
 class App extends Component {
   constructor(props) {
@@ -47,11 +48,11 @@ class App extends Component {
 
     return (
       <div>
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <nav className="navbar navbar-expand navbar-dark bg-success ">
           <Link to={"/"} className="navbar-brand">
             Serwis transferowy
           </Link>
-          <div className="navbar-nav mr-auto">
+          <div className="navbar-nav mr-auto d-flex justify-content-start">
             <li className="nav-item">
               <Link to={"/home"} className="nav-link">
                 Strona główna
@@ -73,10 +74,18 @@ class App extends Component {
                 </Link>
               </li>
             )}
+
+            {currentUser && (
+              <li className="nav-item">
+                <Link to={"/clubs"} className="nav-link">
+                  Kluby
+                </Link>
+              </li>
+            )}
           </div>
 
           {currentUser ? (
-            <div className="navbar-nav ml-auto">
+            <div className="col d-flex justify-content-end align-items-start navbar-nav ml-auto">
               <li className="nav-item">
                 <Link to={"/profile"} className="nav-link">
                   Profil
@@ -89,7 +98,7 @@ class App extends Component {
               </li>
             </div>
           ) : (
-            <div className="navbar-nav ml-auto">
+              <div className="col d-flex justify-content-end align-items-start navbar-nav ml-auto">
               <li className="nav-item">
                 <Link to={"/login"} className="nav-link">
                   Logowanie
@@ -113,6 +122,7 @@ class App extends Component {
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/user" element={<BoardUser />} />
+            <Route path="/clubs" element={<Clubs />} />
             <Route path="/admin" element={<BoardAdmin />} />
           </Routes>
         </div>

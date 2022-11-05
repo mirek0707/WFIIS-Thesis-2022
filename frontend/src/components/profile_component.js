@@ -33,7 +33,7 @@ export default class Profile extends Component {
                     <div>
                         <header className="jumbotron">
                             <h3>
-                                <strong>{currentUser.username}</strong> Profile
+                                Profil użytkownika <strong>{currentUser.username}</strong> 
                             </h3>
                         </header>
                         <p>
@@ -46,10 +46,10 @@ export default class Profile extends Component {
                             {currentUser.id}
                         </p>
                         <p>
-                            <strong>Email:</strong>{" "}
+                            <strong>E-mail:</strong>{" "}
                             {currentUser.email}
                         </p>
-                        <strong>Authorities:</strong>
+                        <strong>Dostęp:</strong>
                         <ul>
                             {currentUser.roles &&
                                 currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}

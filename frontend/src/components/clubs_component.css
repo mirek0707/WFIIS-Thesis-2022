@@ -1,0 +1,14 @@
+#countryFlag {
+    outline: none;
+    position: relative;
+    width: 38px;
+    height: 100%;
+    padding: 0 0 0 8px;
+    border-radius: 3px 0 0 3px;
+    background-color: #ecebeb;
+}
+svg{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
