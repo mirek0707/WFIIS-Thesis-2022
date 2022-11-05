@@ -36,10 +36,10 @@
     transform: rotate(360deg);
   }
 }
-label {
+/* label {
   display: block;
   margin-top: 10px;
-}
+} */
 
 .card-container.card {
   max-width: 350px !important;
@@ -67,4 +67,39 @@ label {
   -moz-border-radius: 50%;
   -webkit-border-radius: 50%;
   border-radius: 50%;
+}
+.container-fluid .jumbotron,
+.container .jumbotron {
+  border-radius: 6px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@media screen and (min-width: 768px) {
+
+  .container-fluid .jumbotron,
+  .container .jumbotron {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .jumbotron {
+    padding-bottom: 48px;
+    padding-top: 48px;
+  }
+}
+
+.jumbotron {
+  background-color: #eee;
+  padding-left: 60px;
+  padding-right: 60px;
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  padding-top: 30px;
+}
+
+nav{
+  padding: .5rem 1rem;
 }
