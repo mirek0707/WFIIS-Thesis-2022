@@ -23,9 +23,11 @@ export default function PlayersComponent() {
     const [content, setContent] = useState()
     const [playerArr, setPlayerArr] = useState([])
     const [selectedCountry, setSelectedCountry] = useState("")
+    const [selectedPosition, setSelectedPosition] = useState("")
     const [status, setStatus] = useState("")
 
     const selectCountryHandler = (value) => setSelectedCountry(value)
+    const selectPositionHandler = (value) => setSelectedPosition(value)
     const ButtonHandler = (value) => setStatus(value)
     countries.registerLocale(enLocale);
     countries.registerLocale(plLocale);
@@ -47,6 +49,17 @@ export default function PlayersComponent() {
             return obj.label === nationality;
         });
         return codeByNation.value;
+    }
+
+    function getAge(date) {
+        var today = new Date();
+        var birthDate = new Date(date);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
     }
 
     function componentDidMount() {
@@ -72,6 +85,7 @@ export default function PlayersComponent() {
         });
         const dataJson = JSON.stringify({
             nationality: foundByCountry ? foundByCountry.label : "",
+            position: selectedPosition === "all" ? "" : selectedPosition,
         })
         try {
             const res = await axios.post((process.env.baseURL || "http://localhost:3001") + '/api/test/getPlayers', dataJson, {
@@ -87,7 +101,7 @@ export default function PlayersComponent() {
 
     useEffect(() => {
         getPlayersData()
-    }, [selectedCountry]) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [selectedCountry, selectedPosition]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
@@ -99,42 +113,64 @@ export default function PlayersComponent() {
                             <header className="jumbotron">
                                 <h3>Zawodnicy</h3>
                             </header>
-                            <div
-                                id="countryFlag"
-                                className="marginBottom"
-                                style={{ display: "flex", alignItems: "center", width: "70%" }}
-                            >
-                                <ReactCountryFlag
-                                    style={{
-                                        width: '1.5em',
-                                        height: '1.5em',
-                                    }}
-                                    countryCode={selectedCountry}
-                                    svg
-                                    cdnUrl="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/1x1/"
-                                    cdnSuffix="svg"
-                                    title={selectedCountry}
-                                />
-                                <div style={{ marginLeft: "10px", color: "black", width: "100%" }}>
-                                    <FloatingLabel controlId="floatingSelect" label="Narodowość">
+                            <Row>
+                                <Col lg={8}>
+                                    <div
+                                        id="countryFlag"
+                                        className="marginBottom"
+                                        style={{ display: "flex", alignItems: "center", width: "100%" }}
+                                    >
+                                        <ReactCountryFlag
+                                            style={{
+                                                width: '1.5em',
+                                                height: '1.5em',
+                                            }}
+                                            countryCode={selectedCountry}
+                                            svg
+                                            cdnUrl="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.3/flags/1x1/"
+                                            cdnSuffix="svg"
+                                            title={selectedCountry}
+                                        />
+                                        <div style={{ marginLeft: "10px", color: "black", width: "100%" }}>
+                                            <FloatingLabel controlId="floatingSelect" label="Narodowość">
+                                                <Form.Select size="lg"
+                                                    id="floatingSelect"
+                                                    value={selectedCountry}
+                                                    onChange={(e) => {
+                                                        selectCountryHandler(e.target.value);
+                                                    }}
+                                                >
+                                                    <option key={"all"} value={"all"}>Wszystkie</option>
+                                                    {!!strAscendingCountryArr?.length &&
+                                                        strAscendingCountryArr.map(({ label, value }) => (
+                                                            <option key={value} value={value}>
+                                                                {label}
+                                                            </option>
+                                                        ))}
+                                                </Form.Select>
+                                            </FloatingLabel>
+                                        </div>
+                                    </div>
+                                </Col>
+                                <Col lg={4}>
+                                    <FloatingLabel controlId="floatingSelect" label="Pozycja">
                                         <Form.Select size="lg"
-                                            id="floatingSelect"
-                                            value={selectedCountry}
+                                            id="floatingSelect2"
+                                            value={selectedPosition}
                                             onChange={(e) => {
-                                                selectCountryHandler(e.target.value);
+                                                selectPositionHandler(e.target.value);
                                             }}
                                         >
                                             <option key={"all"} value={"all"}>Wszystkie</option>
-                                            {!!strAscendingCountryArr?.length &&
-                                                strAscendingCountryArr.map(({ label, value }) => (
-                                                    <option key={value} value={value}>
-                                                        {label}
-                                                    </option>
-                                                ))}
+                                            <option key={"BR"} value={"bramkarz"}>Bramkarz</option>
+                                            <option key={"OB"} value={"obrońca"}>Obrońca</option>
+                                            <option key={"PO"} value={"pomocnik"}>Pomocnik</option>
+                                            <option key={"NA"} value={"napastnik"}>Napastnik</option>
+                                            
                                         </Form.Select>
                                     </FloatingLabel>
-                                </div>
-                            </div>
+                                </Col>
+                            </Row>
                             <Row lg={4}>
                                 {playerArr.map((player, i) => (
                                     <Col className="d-flex" key={i}>
@@ -187,13 +223,13 @@ export default function PlayersComponent() {
                                         height="180"
                                     />
                             </header>
+                            {status.known_as !== "" ? (
+                                <p>
+                                    <strong>Pełne imię i nazwisko:</strong>{" "}
+                                    {status.name} {status.surname}
+                                </p>
+                            ):(null)}
                             <p>
-                                {status.known_as !== "" ? (
-                                    <p>
-                                        <strong>Pełne imię i nazwisko:</strong>{" "}
-                                        {status.name} {status.surname}
-                                    </p>
-                                ):(null)}
                                 <strong>Narodowość:</strong>{" "}
                                 <ReactCountryFlag
                                     style={{
@@ -219,6 +255,10 @@ export default function PlayersComponent() {
                             <p>
                                 <strong>Pozycja:</strong>{" "}
                                 {status.position}
+                            </p>
+                            <p>
+                                <strong>Wiek:</strong>{" "}
+                                {getAge(status.date_of_birth)}
                             </p>
                             <p>
                                 <strong>Data i miejsce urodzenia:</strong>{" "}
