@@ -100,12 +100,12 @@ export default function PlayersComponent() {
     }
 
     useEffect(() => {
+        componentDidMount()
         getPlayersData()
     }, [selectedCountry, selectedPosition]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
-            {componentDidMount()}
             {content === "Zawartość użytkownika." ? (
                 <div className="container">
                     {status === "" ? (

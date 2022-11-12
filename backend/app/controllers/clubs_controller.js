@@ -1,4 +1,3 @@
-const config = require("../config/auth_config");
 const db = require("../models");
 const Club = db.club;
 
