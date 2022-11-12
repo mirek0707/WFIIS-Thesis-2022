@@ -13,6 +13,7 @@ import BoardUser from "./components/board_user_component";
 import BoardAdmin from "./components/board_admin_component";
 import Clubs from "./components/clubs_component";
 import Players from "./components/players_component";
+import Transfers from "./components/transfers_component";
 
 class App extends Component {
   constructor(props) {
@@ -91,6 +92,13 @@ class App extends Component {
                 </Link>
               </li>
             )}
+            {currentUser && (
+              <li className="nav-item">
+                <Link to={"/transfers"} className="nav-link">
+                  Transfery
+                </Link>
+              </li>
+            )}
           </div>
 
           {currentUser ? (
@@ -133,6 +141,7 @@ class App extends Component {
             <Route path="/user" element={<BoardUser />} />
             <Route path="/clubs" element={<Clubs />} />
             <Route path="/Players" element={<Players />} />
+            <Route path="/Transfers" element={<Transfers />} />
             <Route path="/admin" element={<BoardAdmin />} />
           </Routes>
         </div>

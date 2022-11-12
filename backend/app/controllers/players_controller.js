@@ -1,4 +1,3 @@
-const config = require("../config/auth_config");
 const db = require("../models");
 const Player = db.player;
 
@@ -18,6 +17,14 @@ exports.getPlayers = async (req, res) => {
             return res.status(200).json({ status: 'ok', players })
         }
 
+    }
+    catch (err) { return res.status(422).json({ status: 'error', error: 'Error' }) }
+}
+
+exports.getPlayersNames = async (req, res) => {
+    try {
+        const players = await Player.find({},{ name:1, surname:1, known_as:1, nationality:1 });
+        return res.status(200).json({ status: 'ok', players })
     }
     catch (err) { return res.status(422).json({ status: 'error', error: 'Error' }) }
 }

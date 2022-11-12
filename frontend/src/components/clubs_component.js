@@ -87,12 +87,12 @@ export default function ClubsComponent() {
     }
 
     useEffect(() => {
+        componentDidMount()
         getClubsData()
     }, [selectedCountry]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
-            {componentDidMount()}
             {content === "Zawartość użytkownika." ? (
                 <div className="container">
                     {status === "" ? (
