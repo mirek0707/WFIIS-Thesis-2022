@@ -9,12 +9,16 @@ import Col from 'react-bootstrap/Col';
 import Form from "react-bootstrap/Form";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Button from 'react-bootstrap/Button';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
+import Table from 'react-bootstrap/Table';
 
 import countries from "i18n-iso-countries";
 import ReactCountryFlag from "react-country-flag";
 import enLocale from "i18n-iso-countries/langs/en.json";
 import plLocale from "i18n-iso-countries/langs/pl.json";
 import Moment from 'moment';
+import CurrencyFormat from 'react-currency-format';
 
 
 export default function PlayersComponent() {
@@ -22,6 +26,7 @@ export default function PlayersComponent() {
     Moment.locale('pl')
     const [content, setContent] = useState()
     const [playerArr, setPlayerArr] = useState([])
+    const [transferArr, setTransferArr] = useState([])
     const [selectedCountry, setSelectedCountry] = useState("")
     const [selectedPosition, setSelectedPosition] = useState("")
     const [status, setStatus] = useState("")
@@ -62,6 +67,15 @@ export default function PlayersComponent() {
         return age;
     }
 
+    function calculateGain() {
+        let sum = 0
+        transferArr.map((transfer) => {
+            sum += transfer.fee
+            return transfer
+        })
+        return sum;
+    }
+
     function componentDidMount() {
         UserService.getUserBoard().then(
             response => {
@@ -99,10 +113,32 @@ export default function PlayersComponent() {
         }
     }
 
+    const getPlayerTransfers = async () => {
+        const dataJson = JSON.stringify({
+            player_id: status === "" ? "" : status._id.toString()
+        })
+        try {
+            const res = await axios.post((process.env.baseURL || "http://localhost:3001") + '/api/test/getPlayerTransfers', dataJson, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+            console.log(dataJson)
+            console.log(status)
+            if (res.data.status === 'ok') {
+                setTransferArr(res.data.transfers)
+            }
+        }
+        catch (err) {
+        }
+    }
+
     useEffect(() => {
         componentDidMount()
         getPlayersData()
     }, [selectedCountry, selectedPosition]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    useEffect(() => {
+        getPlayerTransfers()
+    }, [status]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
@@ -214,14 +250,23 @@ export default function PlayersComponent() {
                     ) : (
                         <>
                             <header className="jumbotron">
-                                <h3>{status.known_as === "" ? status.name + " " + status.surname : status.known_as}</h3>
-                                    <img
-                                        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                                        alt="player-img"
-                                        className="player-img-card"
-                                        width="180"
-                                        height="180"
-                                    />
+                                <Row lg={2}>
+                                    <Col className="d-flex">
+                                        <h3>{status.known_as === "" ? status.name + " " + status.surname : status.known_as}</h3>
+                                    </Col>
+                                    <Col className="d-flex justify-content-end">
+                                        <Button variant="success" onClick={() => { ButtonHandler("") }} >
+                                            Wróć do wszystkich zawodników
+                                        </Button>
+                                    </Col>
+                                </Row>
+                                <img
+                                    src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                                    alt="player-img"
+                                    className="player-img-card"
+                                    width="180"
+                                    height="180"
+                                />
                             </header>
                             {status.known_as !== "" ? (
                                 <p>
@@ -268,9 +313,40 @@ export default function PlayersComponent() {
                                 <strong>{"Wzrost/waga [cm/kg]:"}</strong>{" "}
                                 {status.height}/{status.weight}
                             </p>
-                            <Button variant="success" onClick={() => { ButtonHandler("") }} >
-                                Wróć do wszystkich zawodników
-                            </Button>
+                            <Tabs
+                                defaultActiveKey="transfers"
+                                transition={true}
+                                id="noanim-tab-example"
+                                className="mb-3"
+                            >
+                                <Tab eventKey="transfers" title="Transfery zawodnika">
+                                    <Table striped bordered hover size="sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Data</th>
+                                                <th>Z klubu</th>
+                                                <th>Do klubu</th>
+                                                <th>Typ</th>
+                                                <th>Kwota</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {transferArr.map((transfer, i) => (
+                                                <tr key={i}>
+                                                    <td>{Moment(transfer.date).format('DD.MM.YYYY')}</td>
+                                                    <td>{transfer.club_left}</td>
+                                                    <td>{transfer.club_joined}</td>
+                                                    <td>{transfer.type}</td>
+                                                    <CurrencyFormat value={transfer.fee} displayType={'text'} thousandSeparator={true} suffix={' €'} renderText={value => <td>{value}</td>} />
+                                                </tr>
+                                            ))}
+                                            <tr>
+                                                    <CurrencyFormat value={calculateGain()} displayType={'text'} thousandSeparator={true} suffix={' €'} renderText={value => <td align="right" colSpan={6}><b>Łączny dochód z transferów: {value}</b></td>} />
+                                            </tr>
+                                        </tbody>
+                                    </Table>
+                                </Tab>
+                            </Tabs>
                         </>
                     )}
                 </div>

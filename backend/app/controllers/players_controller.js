@@ -12,11 +12,19 @@ exports.getPlayers = async (req, res) => {
         } else if (req.body.nationality === "") {
             const players = await Player.find({ position: req.body.position }).sort({ surname: 1 });
             return res.status(200).json({ status: 'ok', players })
-        } else{
+        } else {
             const players = await Player.find({ position: req.body.position, nationality: req.body.nationality }).sort({ surname: 1 });
             return res.status(200).json({ status: 'ok', players })
         }
 
+    }
+    catch (err) { return res.status(422).json({ status: 'error', error: 'Error' }) }
+}
+
+exports.getPlayersFromClub = async (req, res) => {
+    try {
+        const players = await Player.find({ club: req.body.club }).sort({ surname: 1 });
+        return res.status(200).json({ status: 'ok', players })
     }
     catch (err) { return res.status(422).json({ status: 'error', error: 'Error' }) }
 }
