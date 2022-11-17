@@ -7,5 +7,8 @@ module.exports = function (app) {
     app.post("/api/test/getClubs", club_controller.getClubs);
     app.post("/api/test/getPlayers", player_controller.getPlayers);
     app.post("/api/test/getPlayersNames", player_controller.getPlayersNames);
+    app.post("/api/test/getPlayersFromClub", player_controller.getPlayersFromClub);
     app.post("/api/test/getTransfers", transfer_controller.getTransfers);
+    app.post("/api/test/getClubTransfers", transfer_controller.getClubTransfers);
+    app.post("/api/test/getPlayerTransfers", transfer_controller.getPlayerTransfers);
 };
