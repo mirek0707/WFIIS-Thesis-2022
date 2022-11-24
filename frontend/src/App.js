@@ -8,6 +8,7 @@ import AuthService from "./services/auth_service";
 import Login from "./components/login_component";
 import Register from "./components/register_component";
 import Home from "./components/home_component";
+import Animation from "./components/animation_component";
 import Profile from "./components/profile_component";
 import BoardUser from "./components/board_user_component";
 import BoardAdmin from "./components/board_admin_component";
@@ -52,7 +53,13 @@ class App extends Component {
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-success ">
           <Link to={"/"} className="navbar-brand">
-            Serwis transferowy
+            <img
+              alt=""
+              src="logo2.png"
+              height="30 px"
+              className="d-inline-block align-top"
+            />{' '}
+            TransferSite
           </Link>
           <div className="navbar-nav mr-auto d-flex justify-content-start">
             <li className="nav-item">
@@ -133,7 +140,7 @@ class App extends Component {
 
         <div className="container mt-3">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Animation />} />
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
