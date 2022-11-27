@@ -195,7 +195,7 @@ export default function ClubsComponent() {
     return (
         <>
             {content === "Zawartość użytkownika." ? (
-                <div className="container">
+                <div className="container" style={{ padding: "3rem 0rem" }}>
                     <header className="jumbotron">
                         <h3>Transfery</h3>
                     </header>
@@ -283,7 +283,7 @@ export default function ClubsComponent() {
                     <Pagination onClick={handleClick}>{paginationItems}</Pagination>
                 </div>
             ) : (
-                <div className="container">
+                <div className="container" style={{ padding: "3rem 0rem" }}>
                     <header className="jumbotron">
                         <h3>Brak dostępu do tej strony!</h3>
                     </header >
