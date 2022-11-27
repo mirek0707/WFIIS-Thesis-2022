@@ -35,7 +35,7 @@ const onSceneReady = (scene) => {
         myShape.push(new Vector3(arrowRadius * Math.cos(i * deltaAngle), arrowRadius * Math.sin(i * deltaAngle), 0))
 
     }
-    myShape.push(myShape[0]);  //close profile
+    myShape.push(myShape[0]);
 
     const arrowHeadLength = 1.5;
     const arrowHeadMaxSize = 1.5;
@@ -70,9 +70,6 @@ const onSceneReady = (scene) => {
     arrow2Path.push(arrow2BodyEnd)
     arrow2Path.push(arrow2HeadEnd);
 
-    /* arrow2Path.unshift(new BABYLON.Vector3(0, 0, 0))
-    arrow1Path.unshift(new BABYLON.Vector3(0, 0, 0)) */
-
     const scaling = (index, distance) => {
         switch (index) {
             case 0:
@@ -105,11 +102,6 @@ const onSceneReady = (scene) => {
         path[1] = arrowBodyEnd;
         path[2] = arrowBodyEnd;
         path[3] = arrowHeadEnd;
-
-        //path[0] = new BABYLON.Vector3(0, 0, 0)
-        //path.unshift(new BABYLON.Vector3(0, 0, 0))
-
-
 
        MeshBuilder.ExtrudeShapeCustom("arrow", { shape: shape, path: path, scaleFunction: scaling, instance: arrow });
     }
@@ -266,10 +258,6 @@ const onSceneReady = (scene) => {
 
 };
 
-/**
- * Will run on every frame render.  We are spinning the box on y-axis.
- */
-
 export default function Home() {
 
     const [content, setContent] = useState()
@@ -297,7 +285,7 @@ export default function Home() {
     }, [])
 
     return(
-    <div>
+    <div className="container" style={{ padding: "3rem 0rem" }}>
         <SceneComponent antialias onSceneReady={onSceneReady} id="my-canvas" />
     </div>
     )

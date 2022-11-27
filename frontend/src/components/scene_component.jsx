@@ -43,5 +43,5 @@ export default ({ antialias, engineOptions, adaptToDeviceRatio, sceneOptions, on
         };
     }, [antialias, engineOptions, adaptToDeviceRatio, sceneOptions, onRender, onSceneReady]);
 
-    return <canvas id="canvas" height="600px" ref={reactCanvas} {...rest} />;
+    return <canvas id="canvas" height="600px" style={{paddingTop:"20px"}} ref={reactCanvas} {...rest} />;
 };

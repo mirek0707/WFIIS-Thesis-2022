@@ -27,12 +27,15 @@ export default function PlayersComponent() {
     const [content, setContent] = useState()
     const [playerArr, setPlayerArr] = useState([])
     const [transferArr, setTransferArr] = useState([])
+    const [videoArr, setVideoArr] = useState([])
     const [selectedCountry, setSelectedCountry] = useState("")
     const [selectedPosition, setSelectedPosition] = useState("")
+    const [selectedOption, setSelectedOption] = useState("")
     const [status, setStatus] = useState("")
 
     const selectCountryHandler = (value) => setSelectedCountry(value)
     const selectPositionHandler = (value) => setSelectedPosition(value)
+    const selectOptionHandler = (value) => setSelectedOption(value)
     const ButtonHandler = (value) => setStatus(value)
     countries.registerLocale(enLocale);
     countries.registerLocale(plLocale);
@@ -131,6 +134,24 @@ export default function PlayersComponent() {
         }
     }
 
+    const getVideos = async () => {
+        const dataJson = JSON.stringify({
+            surname: status === "" ? "" : status.surname,
+            known_as: status === "" ? "" : status.known_as,
+            option: selectedOption === "all" ? "" : selectedOption
+        })
+        try {
+            const res = await axios.post((process.env.baseURL || "http://localhost:3001") + '/api/test/getVideos', dataJson, {
+                headers: { 'Content-Type': 'application/json' }
+            })
+            if (res.data.status === 'ok') {
+                setVideoArr(res.data.videos)
+            }
+        }
+        catch (err) {
+        }
+    }
+
     useEffect(() => {
         componentDidMount()
         getPlayersData()
@@ -138,12 +159,16 @@ export default function PlayersComponent() {
 
     useEffect(() => {
         getPlayerTransfers()
+        getVideos()
     }, [status]) // eslint-disable-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        getVideos()
+    }, [selectedOption]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
             {content === "Zawartość użytkownika." ? (
-                <div className="container">
+                <div className="container" style={{ padding: "3rem 0rem" }}>
                     {status === "" ? (
                         <>
                             <header className="jumbotron">
@@ -309,7 +334,7 @@ export default function PlayersComponent() {
                                 <strong>Data i miejsce urodzenia:</strong>{" "}
                                 {Moment(status.date_of_birth).format('DD.MM.YYYY')}, {status.city_of_birth}
                             </p>
-                            <p>
+                            <p style={{marginBottom:"50px"}}>
                                 <strong>{"Wzrost/waga [cm/kg]:"}</strong>{" "}
                                 {status.height}/{status.weight}
                             </p>
@@ -341,17 +366,51 @@ export default function PlayersComponent() {
                                                 </tr>
                                             ))}
                                             <tr>
-                                                    <CurrencyFormat value={calculateGain()} displayType={'text'} thousandSeparator={true} suffix={' €'} renderText={value => <td align="right" colSpan={6}><b>Łączny dochód z transferów: {value}</b></td>} />
+                                                <CurrencyFormat value={calculateGain()} displayType={'text'} thousandSeparator={true} suffix={' €'} renderText={value => <td align="right" colSpan={6}><b>Łączny dochód z transferów: {value}</b></td>} />
                                             </tr>
                                         </tbody>
                                     </Table>
+                                </Tab>
+                                <Tab eventKey="videos" title="Filmiki">
+                                    <Col lg={3}>
+                                        <FloatingLabel controlId="floatingSelect" label="Rodzaj:">
+                                            <Form.Select size="lg"
+                                                id="floatingSelect"
+                                                value={selectedOption}
+                                                onChange={(e) => {
+                                                    selectOptionHandler(e.target.value);
+                                                }}
+                                            >
+                                                <option key={"all"} value={"all"}>Wszystkie</option>
+                                                <option key={"goals"} value={"goals"}>Gole</option>
+                                                <option key={"skills"} value={"21/22"}>Umiejętności</option>
+                                            </Form.Select>
+                                        </FloatingLabel>
+                                    </Col>
+                                    <Row lg={3}>
+                                        {videoArr.map((video, i) => (
+                                            <Col className="d-flex" key={i}>
+                                                <Card key={video.name} className="text-center">
+                                                    <Card.Body>
+                                                        <iframe title={video.name} width="320" height="180" src={video.url} frameBorder="0" allowFullScreen></iframe>
+                                                        <br/>
+                                                        <Card.Link href={video.url}>link</Card.Link>
+                                                        <Card.Title>{video.name}</Card.Title>
+                                                        {/* <Card.Text>
+                                                            
+                                                        </Card.Text>*/}
+                                                    </Card.Body>
+                                                </Card>
+                                            </Col>
+                                        ))}
+                                    </Row>
                                 </Tab>
                             </Tabs>
                         </>
                     )}
                 </div>
             ) : (
-                <div className="container">
+                <div className="container" style={{ padding: "3rem 0rem" }}>
                     <header className="jumbotron">
                         <h3>Brak dostępu do tej strony!</h3>
                     </header >

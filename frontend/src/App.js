@@ -152,6 +152,38 @@ class App extends Component {
             <Route path="/admin" element={<BoardAdmin />} />
           </Routes>
         </div>
+        <footer className="py-3 my-4">
+          <ul className="nav justify-content-center border-bottom pb-3 mb-3">
+            <li className="nav-item"><Link to={"/"} className="nav-link px-2 text-muted">Strona startowa</Link></li>
+            <li className="nav-item"><Link to={"/home"} className="nav-link px-2 text-muted">Strona główna</Link></li>
+            {showAdminBoard && (
+              <li className="nav-item"><Link to={"/admin"} className="nav-link px-2 text-muted">Panel administratora</Link></li>
+            )}
+            {currentUser && (
+              <li className="nav-item"><Link to={"/user"} className="nav-link px-2 text-muted">Panel użytkownika</Link></li>
+            )}
+            {currentUser && (
+              <li className="nav-item"><Link to={"/clubs"} className="nav-link px-2 text-muted">Kluby</Link></li>
+            )}
+
+            {currentUser && (
+              <li className="nav-item"><Link to={"/players"} className="nav-link px-2 text-muted">Zawodnicy</Link></li>
+            )}
+            {currentUser && (
+              <li className="nav-item"><Link to={"/transfers"} className="nav-link px-2 text-muted">Transfery</Link></li>
+            )}
+
+            {currentUser ? (
+                <li className="nav-item"><Link to={"/profile"} className="nav-link px-2 text-muted">Profil</Link></li>
+            ) : (
+              <>
+                <li className="nav-item"><Link to={"/login"} className="nav-link px-2 text-muted">Logowanie</Link></li>
+                <li className="nav-item"><Link to={"/register"} className="nav-link px-2 text-muted">Rejestracja</Link></li>
+              </>
+            )}
+          </ul>
+          <p className="text-center text-muted">2022, Mirosław Kołodziej</p>
+        </footer>
       </div>
     );
   }

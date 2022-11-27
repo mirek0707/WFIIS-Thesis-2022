@@ -1,6 +1,7 @@
 const club_controller = require("../controllers/clubs_controller");
 const player_controller = require("../controllers/players_controller");
 const transfer_controller = require("../controllers/transfers_controller");
+const video_controller = require("../controllers/videos_controller");
 
 module.exports = function (app) {
 
@@ -11,4 +12,5 @@ module.exports = function (app) {
     app.post("/api/test/getTransfers", transfer_controller.getTransfers);
     app.post("/api/test/getClubTransfers", transfer_controller.getClubTransfers);
     app.post("/api/test/getPlayerTransfers", transfer_controller.getPlayerTransfers);
+    app.post("/api/test/getVideos", video_controller.getVideos);
 };
