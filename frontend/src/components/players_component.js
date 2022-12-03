@@ -36,7 +36,7 @@ export default function PlayersComponent() {
     const selectCountryHandler = (value) => setSelectedCountry(value)
     const selectPositionHandler = (value) => setSelectedPosition(value)
     const selectOptionHandler = (value) => setSelectedOption(value)
-    const ButtonHandler = (value) => setStatus(value)
+    const ButtonHandler = (value) => { setStatus(value); /* window.scrollTo(0, 0); */ }
     countries.registerLocale(enLocale);
     countries.registerLocale(plLocale);
 
@@ -158,9 +158,11 @@ export default function PlayersComponent() {
     }, [selectedCountry, selectedPosition]) // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         getPlayerTransfers()
         getVideos()
     }, [status]) // eslint-disable-line react-hooks/exhaustive-deps
+
     useEffect(() => {
         getVideos()
     }, [selectedOption]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -382,8 +384,8 @@ export default function PlayersComponent() {
                                                 }}
                                             >
                                                 <option key={"all"} value={"all"}>Wszystkie</option>
-                                                <option key={"goals"} value={"goals"}>Gole</option>
-                                                <option key={"skills"} value={"21/22"}>Umiejętności</option>
+                                                    <option key={"goals\" \"skills"} value={"goals\" \"skills"}>Gole/zagrania</option>
+                                                <option key={"interview"} value={"interview"}>Wywiady</option>
                                             </Form.Select>
                                         </FloatingLabel>
                                     </Col>
@@ -391,14 +393,11 @@ export default function PlayersComponent() {
                                         {videoArr.map((video, i) => (
                                             <Col className="d-flex" key={i}>
                                                 <Card key={video.name} className="text-center">
-                                                    <Card.Body>
+                                                    <Card.Body id="videoCard">
                                                         <iframe title={video.name} width="320" height="180" src={video.url} frameBorder="0" allowFullScreen></iframe>
                                                         <br/>
-                                                        <Card.Link href={video.url}>link</Card.Link>
-                                                        <Card.Title>{video.name}</Card.Title>
-                                                        {/* <Card.Text>
-                                                            
-                                                        </Card.Text>*/}
+                                                        {/* <Card.Link href={video.url}>link</Card.Link> */}
+                                                        <Card.Title style={{ paddingTop: "1rem" }}>{video.name}</Card.Title>
                                                     </Card.Body>
                                                 </Card>
                                             </Col>

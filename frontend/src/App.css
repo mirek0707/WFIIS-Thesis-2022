@@ -104,3 +104,13 @@
 nav{
   padding: .5rem 1rem;
 }
+.main{
+    display: grid; 
+    grid-template-rows: auto 1fr auto; 
+    min-height: 100vh; 
+}
+
+.carousel-caption {
+  top: 37%;
+  bottom: auto;
+}

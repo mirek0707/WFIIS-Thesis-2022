@@ -14,3 +14,24 @@ exports.getClubs = async (req, res) => {
     }
     catch (err) { return res.status(422).json({ status: 'error', error: 'Error' }) }
 }
+
+exports.getClubsNames = async (req, res) => {
+    try {
+        const clubs = await Club.find({}, {name: 1}).sort({ name: 1 });
+        return res.status(200).json({ status: 'ok', clubs })        
+    }
+    catch (err) { return res.status(422).json({ status: 'error', error: 'Error' }) }
+}
+
+exports.addClub = async (req, res) => {
+    try {
+        const club = await Club.create({
+            name: req.body.name,
+            nation: req.body.nation,
+            city: req.body.city,
+            year_founded: req.body.year_founded
+        });
+        return res.status(200).json({ status: 'ok', club });
+    }
+    catch (err) { return res.status(422).json({ status: 'error', error: 'Error' }) }
+}

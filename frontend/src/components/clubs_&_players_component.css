@@ -22,10 +22,6 @@ img{
 table{
     margin-top: 30px;
 }
-/* 
-ul{
-    margin-top: 50px;
-} */
 
 .nav.nav-tabs .nav-link.active {
     background-color: #198754;
@@ -39,11 +35,17 @@ ul{
 }
 
 .nav.nav-tabs .nav-link {
-    /* background-color: #198754; */
     color: #198754;
     transition: .5s;
 }
 
- .nav.nav-tabs .nav-link:hover{
+.nav.nav-tabs .nav-link:hover{
     border-color: #146c43;
- }
+}
+
+/* #videoCard .card-title.h5{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+} */

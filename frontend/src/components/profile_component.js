@@ -37,6 +37,10 @@ export default class Profile extends Component {
                             </h3>
                         </header>
                         <p>
+                            <strong>Nazwa użytkownika:</strong>{" "}
+                            {currentUser.username}
+                        </p>
+                        {/* <p>
                             <strong>Token:</strong>{" "}
                             {currentUser.accessToken.substring(0, 20)} ...{" "}
                             {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
@@ -44,7 +48,7 @@ export default class Profile extends Component {
                         <p>
                             <strong>Id:</strong>{" "}
                             {currentUser.id}
-                        </p>
+                        </p> */}
                         <p>
                             <strong>E-mail:</strong>{" "}
                             {currentUser.email}

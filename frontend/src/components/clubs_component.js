@@ -184,6 +184,7 @@ export default function ClubsComponent() {
     }, [selectedCountry]) // eslint-disable-line react-hooks/exhaustive-deps
     
     useEffect(() => {
+        window.scrollTo(0, 0)
         getPlayersFromClub()
         getPlayersNames()
     }, [status]) // eslint-disable-line react-hooks/exhaustive-deps
