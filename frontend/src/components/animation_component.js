@@ -260,7 +260,8 @@ const onSceneReady = (scene) => {
 
 export default function Home() {
 
-    const [content, setContent] = useState()
+    // eslint-disable-next-line
+    const [content, setContent] = useState() 
 
     function componentDidMount() {
         UserService.getPublicContent().then(
@@ -285,7 +286,7 @@ export default function Home() {
     }, [])
 
     return(
-    <div className="container" style={{ padding: "3rem 0rem" }}>
+        <div className="container" style={{ padding: "2rem 0rem", maxWidth: "90%" }}>
         <SceneComponent antialias onSceneReady={onSceneReady} id="my-canvas" />
     </div>
     )

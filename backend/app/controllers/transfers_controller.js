@@ -30,3 +30,19 @@ exports.getPlayerTransfers = async (req, res) => {
     }
     catch (err) { return res.status(422).json({ status: 'error', error: 'Error' }) }
 }
+
+exports.addTransfer = async (req, res) => {
+    try {
+        const transfer = await Transfer.create({ 
+            player_id: req.body.player_id, 
+            club_left: req.body.club_left, 
+            club_joined: req.body.club_joined, 
+            type: req.body.type, 
+            fee: req.body.fee, 
+            date: new Date(req.body.date), 
+            season: req.body.season 
+        });
+        return res.status(200).json({ status: 'ok', transfer });
+    }
+    catch (err) { return res.status(422).json({ status: 'error', error: 'Error' }) }
+}
