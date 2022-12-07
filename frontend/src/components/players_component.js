@@ -36,7 +36,7 @@ export default function PlayersComponent() {
     const selectCountryHandler = (value) => setSelectedCountry(value)
     const selectPositionHandler = (value) => setSelectedPosition(value)
     const selectOptionHandler = (value) => setSelectedOption(value)
-    const ButtonHandler = (value) => { setStatus(value); /* window.scrollTo(0, 0); */ }
+    const ButtonHandler = (value) => { setStatus(value) }
     countries.registerLocale(enLocale);
     countries.registerLocale(plLocale);
 
@@ -124,8 +124,6 @@ export default function PlayersComponent() {
             const res = await axios.post((process.env.baseURL || "http://localhost:3001") + '/api/test/getPlayerTransfers', dataJson, {
                 headers: { 'Content-Type': 'application/json' }
             })
-            console.log(dataJson)
-            console.log(status)
             if (res.data.status === 'ok') {
                 setTransferArr(res.data.transfers)
             }

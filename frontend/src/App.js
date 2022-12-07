@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import AuthService from "./services/auth_service";
+import AuthVerify from "./common/auth_verify";
 
 import Login from "./components/login_component";
 import Register from "./components/register_component";
@@ -185,6 +186,8 @@ class App extends Component {
           </ul>
           <p className="text-center text-muted">2022, Mirosław Kołodziej</p>
         </footer>
+
+        <AuthVerify logOut={this.logOut} />
       </div>
     );
   }

@@ -189,7 +189,6 @@ export default function ClubsComponent() {
         componentDidMount()
         getPlayersNames()
         getTransfersData()
-        console.log(state.data)
     }, [selectedSeason]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
@@ -266,18 +265,6 @@ export default function ClubsComponent() {
                                         <td>{Moment(item.date).format('DD.MM.YYYY')}</td>
                                     </tr>
                                 ))}
-
-                            
-                            {/* {transferArr.map((transfer, i) =>  (
-                                    <tr key={i}>
-                                        <td>{playerName(transfer.player_id)}</td>
-                                        <td>{transfer.club_left}</td>
-                                        <td>{transfer.club_joined}</td>
-                                        <td>{transfer.type}</td>
-                                        <CurrencyFormat value={transfer.fee} displayType={'text'} thousandSeparator={true} suffix={' €'} renderText={value => <td>{value}</td>} />
-                                        <td>{Moment(transfer.date).format('DD.MM.YYYY')}</td>
-                                    </tr>
-                                ))} */}
                         </tbody>
                     </Table>
                     <Pagination onClick={handleClick}>{paginationItems}</Pagination>
